@@ -1,0 +1,8 @@
+name: BoatHider
+version: '${project.version}'
+main: me.cooleg.boathider.BoatHider
+api-version: '1.19'
+depend:
+  - CommandAPI
+softdepend:
+  - Multiverse-Core
