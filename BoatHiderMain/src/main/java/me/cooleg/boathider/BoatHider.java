@@ -4,15 +4,15 @@ import dev.jorel.commandapi.CommandAPICommand;
 import dev.jorel.commandapi.CommandPermission;
 import dev.jorel.commandapi.arguments.BooleanArgument;
 import dev.jorel.commandapi.arguments.EntitySelectorArgument;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.vehicle.Boat;
+import dev.jorel.commandapi.arguments.LocationArgument;
+import me.cooleg.boathider.nms.INMS;
+import me.cooleg.boathider.nms.V1_19_3.NMSV1_19_R3;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_19_R3.CraftWorld;
-import org.bukkit.craftbukkit.v1_19_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.checkerframework.checker.units.qual.C;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,10 +20,12 @@ import java.util.List;
 public final class BoatHider extends JavaPlugin {
 
     private final ArrayList<World> worlds = new ArrayList<>();
+    private INMS nms;
     private BoatListeners listeners;
 
     @Override
     public void onEnable() {
+        nms = getNMS();
         saveDefaultConfig();
         registerCommands();
         List<String> worldStrings = getConfig().getStringList("worlds");
@@ -34,6 +36,15 @@ public final class BoatHider extends JavaPlugin {
         }
         listeners = new BoatListeners(this, worlds);
         Bukkit.getPluginManager().registerEvents(listeners, this);
+    }
+
+    private INMS getNMS() {
+        String versionString = Bukkit.getBukkitVersion().split("-")[0];
+        INMS inms = switch (versionString) {
+            case "1.19.4" -> new NMSV1_19_R3();
+            default -> throw new IncompatibleVersionException(versionString);
+        };
+        return inms;
     }
 
     @Override
@@ -67,15 +78,14 @@ public final class BoatHider extends JavaPlugin {
                                 .executes(((commandSender, commandArguments) -> {
                                     Player player = (Player) commandArguments.get("player");
                                     Location location = player.getLocation();
-                                    ServerLevel level = ((CraftWorld) player.getWorld()).getHandle();
-                                    NonCollidableBoat boat = new NonCollidableBoat(level, location.getX(), location.getY(), location.getZ());
-                                    float yaw = Location.normalizeYaw(player.getEyeLocation().getYaw());
-                                    boat.setYRot(yaw);
-                                    boat.yRotO = yaw;
-                                    boat.setYHeadRot(yaw);
-                                    level.addFreshEntity(boat);
-                                    boat.setVariant(Boat.Type.ACACIA);
-                                    ((CraftPlayer) player).getHandle().startRiding(boat);
+                                    location.setYaw(player.getEyeLocation().getYaw());
+                                    nms.spawnBoat(location).addPassenger(player);
+                                })),
+                        new CommandAPICommand("spawnboat")
+                                .withArguments(new LocationArgument("location"))
+                                .executes(((commandSender, commandArguments) -> {
+                                    Location location = (Location) commandArguments.get("location");
+                                    nms.spawnBoat(location);
                                 }))
                 ).register();
     }

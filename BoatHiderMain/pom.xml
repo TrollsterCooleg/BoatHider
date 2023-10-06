@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>me.cooleg</groupId>
+        <artifactId>BoatHider</artifactId>
+        <version>1.0</version>
+    </parent>
+
+    <name>BoatHiderMain</name>
+    <artifactId>BoatHiderMain</artifactId>
+    <version>1.0</version>
+    <packaging>jar</packaging>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>1.19.4-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>dev.jorel</groupId>
+            <artifactId>commandapi-bukkit-core</artifactId>
+            <version>9.1.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>me.cooleg</groupId>
+            <artifactId>BoatHiderNMS</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>me.cooleg</groupId>
+            <artifactId>BoatHiderNMS_V1_19_R3</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
+</project>
