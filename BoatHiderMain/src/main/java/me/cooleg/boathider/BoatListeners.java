@@ -95,7 +95,7 @@ public class BoatListeners implements Listener {
         if (!hiding || !worlds.contains(event.getWorld())) {return;}
         ArrayList<Boat> boats = new ArrayList<>();
         for (Entity entity : event.getChunk().getEntities()) {
-            if (!(entity instanceof Boat boat)) {return;}
+            if (!(entity instanceof Boat boat)) {continue;}
             boats.add(boat);
         }
 
