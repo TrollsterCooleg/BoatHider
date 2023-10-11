@@ -8,12 +8,11 @@ import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_19_R3.CraftServer;
 import org.bukkit.craftbukkit.v1_19_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_19_R3.entity.CraftBoat;
-import org.bukkit.entity.Entity;
 
 public class NMSV1_19_R3 implements INMS {
 
     @Override
-    public Entity spawnBoat(Location location) {
+    public org.bukkit.entity.Boat spawnBoat(Location location) {
         ServerLevel level = ((CraftWorld) location.getWorld()).getHandle();
         CollisionlessBoat boat = new CollisionlessBoat(level, location.getX(), location.getY(), location.getZ());
         float yaw = Location.normalizeYaw(location.getYaw());

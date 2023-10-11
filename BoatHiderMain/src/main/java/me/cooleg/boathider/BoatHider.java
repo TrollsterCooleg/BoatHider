@@ -9,17 +9,11 @@ import me.cooleg.boathider.nms.INMS;
 import me.cooleg.boathider.nms.V1_19_3.NMSV1_19_R3;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.checkerframework.checker.units.qual.C;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public final class BoatHider extends JavaPlugin {
 
-    private final ArrayList<World> worlds = new ArrayList<>();
     private INMS nms;
     private BoatListeners listeners;
 
@@ -28,14 +22,10 @@ public final class BoatHider extends JavaPlugin {
         nms = getNMS();
         saveDefaultConfig();
         registerCommands();
-        List<String> worldStrings = getConfig().getStringList("worlds");
-        for (String worldString : worldStrings) {
-            World world = Bukkit.getWorld(worldString);
-            if (world == null) {Bukkit.getLogger().severe("Couldn't find world named " + worldString);}
-            worlds.add(world);
-        }
-        listeners = new BoatListeners(this, worlds);
+
+        listeners = new BoatListeners(this);
         Bukkit.getPluginManager().registerEvents(listeners, this);
+        Bukkit.getPluginManager().registerEvents(new PersistenceListeners(nms, this), this);
     }
 
     private INMS getNMS() {

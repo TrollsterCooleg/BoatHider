@@ -12,49 +12,37 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.vehicle.VehicleDestroyEvent;
 import org.bukkit.event.vehicle.VehicleEnterEvent;
 import org.bukkit.event.vehicle.VehicleExitEvent;
-import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
-
-import java.util.ArrayList;
 
 public class BoatListeners implements Listener {
 
     private final JavaPlugin plugin;
-    private final ArrayList<World> worlds;
     private boolean hiding = false;
 
-    public BoatListeners(JavaPlugin plugin, ArrayList<World> worlds) {
+    public BoatListeners(JavaPlugin plugin) {
         this.plugin = plugin;
-        this.worlds = worlds;
     }
 
     @EventHandler
     private void playerJoinedServer(PlayerJoinEvent event) {
         showAll(event.getPlayer());
-        if (!hiding || !worlds.contains(event.getPlayer().getWorld())) {return;}
+        if (!hiding) {return;}
         hideOtherInWorld(event.getPlayer());
     }
 
     @EventHandler
     private void worldChangedEvent(PlayerChangedWorldEvent event) {
         showAll(event.getPlayer());
-        if (!hiding || !worlds.contains(event.getPlayer().getWorld())) {return;}
+        if (!hiding) {return;}
         hideOtherInWorld(event.getPlayer());
     }
 
     @EventHandler
     private void playerEnterBoat(VehicleEnterEvent event) {
-        if (!hiding || !worlds.contains(event.getEntered().getWorld())) {return;}
+        if (!hiding) {return;}
         if (!(event.getVehicle() instanceof Boat)) {return;}
         if (!(event.getEntered() instanceof Player player)) {return;}
 
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                hideOtherInWorld(player);
-            }
-        }.runTaskLater(plugin, 1);
         for (Player player2 : Bukkit.getOnlinePlayers()) {
             if (player == player2) {continue;}
             if (player2.isInsideVehicle() && player2.getVehicle() != event.getVehicle()) {
@@ -62,6 +50,8 @@ public class BoatListeners implements Listener {
                 player2.hideEntity(plugin, event.getVehicle());
             }
         }
+
+        hideOtherInWorld(player);
     }
 
     @EventHandler
@@ -90,9 +80,10 @@ public class BoatListeners implements Listener {
         }
     }
 
+    /*
     @EventHandler
     private void chunkLoadEvent(ChunkLoadEvent event) {
-        if (!hiding || !worlds.contains(event.getWorld())) {return;}
+        if (!hiding) {return;}
         ArrayList<Boat> boats = new ArrayList<>();
         for (Entity entity : event.getChunk().getEntities()) {
             if (!(entity instanceof Boat boat)) {continue;}
@@ -121,6 +112,8 @@ public class BoatListeners implements Listener {
 
         }
     }
+
+     */
 
     public void showAll(Player player) {
         for (World world : Bukkit.getWorlds()) {

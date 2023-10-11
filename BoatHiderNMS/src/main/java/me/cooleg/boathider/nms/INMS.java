@@ -1,10 +1,10 @@
 package me.cooleg.boathider.nms;
 
 import org.bukkit.Location;
-import org.bukkit.entity.Entity;
+import org.bukkit.entity.Boat;
 
 public interface INMS {
 
-    Entity spawnBoat(Location location);
+    Boat spawnBoat(Location location);
 
 }
