@@ -4,3 +4,5 @@ version: '${project.version}'
 main: me.cooleg.boathider.BoatHider
 api-version: '1.19'
 load: STARTUP
+depend:
+  - CommandAPI
