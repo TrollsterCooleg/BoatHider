@@ -1,4 +1,4 @@
-package me.cooleg.boathider.nms.V1_19_3;
+package me.cooleg.boathider.nms.V1_19_R3;
 
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;

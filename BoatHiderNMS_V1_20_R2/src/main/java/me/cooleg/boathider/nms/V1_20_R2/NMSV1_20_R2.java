@@ -1,15 +1,15 @@
-package me.cooleg.boathider.nms.V1_19_3;
+package me.cooleg.boathider.nms.V1_20_R2;
 
 import me.cooleg.boathider.nms.INMS;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.vehicle.Boat;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_19_R3.CraftServer;
-import org.bukkit.craftbukkit.v1_19_R3.CraftWorld;
-import org.bukkit.craftbukkit.v1_19_R3.entity.CraftBoat;
+import org.bukkit.craftbukkit.v1_20_R2.CraftServer;
+import org.bukkit.craftbukkit.v1_20_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_20_R2.entity.CraftBoat;
 
-public class NMSV1_19_R3 implements INMS {
+public class NMSV1_20_R2 implements INMS {
 
     @Override
     public org.bukkit.entity.Boat spawnBoat(Location location) {
@@ -22,6 +22,11 @@ public class NMSV1_19_R3 implements INMS {
         level.addFreshEntity(boat);
         boat.setVariant(Boat.Type.MANGROVE);
         return new CraftBoat((CraftServer) Bukkit.getServer(), boat);
+    }
+
+    @Override
+    public boolean isCollisionless(org.bukkit.entity.Boat boat) {
+        return ((CraftBoat) boat).getHandle() instanceof CollisionlessBoat;
     }
 
 }

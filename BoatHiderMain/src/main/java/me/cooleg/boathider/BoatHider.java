@@ -6,7 +6,8 @@ import dev.jorel.commandapi.arguments.BooleanArgument;
 import dev.jorel.commandapi.arguments.EntitySelectorArgument;
 import dev.jorel.commandapi.arguments.LocationArgument;
 import me.cooleg.boathider.nms.INMS;
-import me.cooleg.boathider.nms.V1_19_3.NMSV1_19_R3;
+import me.cooleg.boathider.nms.V1_19_R3.NMSV1_19_R3;
+import me.cooleg.boathider.nms.V1_20_R2.NMSV1_20_R2;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -30,11 +31,11 @@ public final class BoatHider extends JavaPlugin {
 
     private INMS getNMS() {
         String versionString = Bukkit.getBukkitVersion().split("-")[0];
-        INMS inms = switch (versionString) {
+        return switch (versionString) {
             case "1.19.4" -> new NMSV1_19_R3();
+            case "1.20.2" -> new NMSV1_20_R2();
             default -> throw new IncompatibleVersionException(versionString);
         };
-        return inms;
     }
 
     @Override

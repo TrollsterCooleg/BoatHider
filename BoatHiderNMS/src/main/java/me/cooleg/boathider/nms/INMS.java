@@ -7,4 +7,6 @@ public interface INMS {
 
     Boat spawnBoat(Location location);
 
+    boolean isCollisionless(Boat boat);
+
 }

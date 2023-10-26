@@ -7,9 +7,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityPlaceEvent;
-import org.bukkit.event.entity.EntitySpawnEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.vehicle.VehicleCreateEvent;
 import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -50,15 +48,8 @@ public class PersistenceListeners implements Listener {
     }
 
     @EventHandler
-    public void entitySpawn(EntitySpawnEvent event) {
-        if (!(event.getEntity() instanceof Boat boat)) {return;}
-        replaceBoat(boat);
-    }
-
-    @EventHandler
-    public void vehicleSpawn(PlayerJoinEvent event) {
-        if (!event.getPlayer().isInsideVehicle()) {return;}
-        if (!(event.getPlayer().getVehicle() instanceof Boat boat)) {return;}
+    public void boatSpawn(VehicleCreateEvent event) {
+        if (!(event.getVehicle() instanceof Boat boat) || nms.isCollisionless(boat)) {return;}
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -66,12 +57,6 @@ public class PersistenceListeners implements Listener {
                 replaceBoat(boat);
             }
         }.runTaskLater(plugin, 1L);
-    }
-
-    @EventHandler
-    public void boatPlace(EntityPlaceEvent event) {
-        if (!(event.getEntity() instanceof Boat boat)) {return;}
-        replaceBoat(boat);
     }
 
     private void replaceBoat(Boat boat) {
