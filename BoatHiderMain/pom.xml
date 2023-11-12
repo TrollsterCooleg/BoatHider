@@ -48,6 +48,11 @@
         </dependency>
         <dependency>
             <groupId>me.cooleg</groupId>
+            <artifactId>BoatHiderNMS_V1_20_R1</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>me.cooleg</groupId>
             <artifactId>BoatHiderNMS_V1_20_R2</artifactId>
             <version>1.0</version>
         </dependency>
