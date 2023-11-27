@@ -6,3 +6,5 @@ api-version: '1.19'
 load: STARTUP
 depend:
   - CommandAPI
+softdepend:
+  - NoxesiumUtils

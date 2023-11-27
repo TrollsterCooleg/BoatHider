@@ -62,5 +62,10 @@
             <id>sonatype</id>
             <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
+        <repository>
+            <id>noxcrew-maven</id>
+            <name>Noxcrew Public Maven Repository</name>
+            <url>https://maven.noxcrew.com/public</url>
+        </repository>
     </repositories>
 </project>

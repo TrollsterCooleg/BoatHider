@@ -9,26 +9,29 @@ import org.bukkit.entity.Vehicle;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.vehicle.VehicleDestroyEvent;
 import org.bukkit.event.vehicle.VehicleEnterEvent;
 import org.bukkit.event.vehicle.VehicleExitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class BoatListeners implements Listener {
 
+    private NoxesiumUtilsHook hook;
     private final JavaPlugin plugin;
     private boolean hiding = false;
 
     public BoatListeners(JavaPlugin plugin) {
         this.plugin = plugin;
-    }
 
-    @EventHandler
-    private void playerJoinedServer(PlayerJoinEvent event) {
-        showAll(event.getPlayer());
-        if (!hiding) {return;}
-        hideOtherInWorld(event.getPlayer());
+        try {
+            Class.forName("me.superneon4ik.noxesiumutils.NoxesiumUtils");
+
+            hook = new NoxesiumUtilsHook(this);
+            Bukkit.getPluginManager().registerEvents(hook, plugin);
+        } catch (ClassNotFoundException e) {
+            hook = null;
+        }
     }
 
     @EventHandler
@@ -50,8 +53,8 @@ public class BoatListeners implements Listener {
         for (Player player2 : Bukkit.getOnlinePlayers()) {
             if (entered == player2) {continue;}
             if (player2.isInsideVehicle() && player2.getVehicle() != event.getVehicle()) {
-                player2.hideEntity(plugin, vehicle);
-                player2.hideEntity(plugin, entered);
+                hideEntity(player2, vehicle);
+                hideEntity(player2, entered);
             }
         }
 
@@ -98,19 +101,37 @@ public class BoatListeners implements Listener {
     }
 
     public void hideOtherInWorld(Player player) {
-        hideOtherInWorld(player, null);
+        hideOtherInWorld(player, null, 1L);
     }
 
     public void hideOtherInWorld(Player player, Vehicle boat) {
-        if (!player.isInsideVehicle()) {return;}
-        for (Entity entity : player.getWorld().getEntitiesByClass(Boat.class)) {
-            if (entity.getPassengers().size() != 0 && !entity.getPassengers().contains(player) && entity != boat) {
-                player.hideEntity(plugin, entity);
-                for (Entity riding : entity.getPassengers()) {
-                    player.hideEntity(plugin, riding);
+        hideOtherInWorld(player, boat, 1L);
+    }
+
+    public void hideOtherInWorld(Player player, long delay) {
+        hideOtherInWorld(player, null, delay);
+    }
+
+    public void hideOtherInWorld(Player player, Vehicle boat, long delay) {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (!player.isInsideVehicle()) {return;}
+                for (Entity entity : player.getWorld().getEntitiesByClass(Boat.class)) {
+                    if (entity.getPassengers().size() != 0 && !entity.getPassengers().contains(player) && entity != boat) {
+                        hideEntity(player, entity);
+                        for (Entity riding : entity.getPassengers()) {
+                            hideEntity(player, riding);
+                        }
+                    }
                 }
             }
-        }
+        }.runTaskLater(plugin, delay);
+    }
+
+    public void hideEntity(Player target, Entity hidden) {
+        if (hook != null && hook.canShowSafely(target)) {return;}
+        target.hideEntity(plugin, hidden);
     }
 
     public void setHiding(boolean hiding) {
