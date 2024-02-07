@@ -22,7 +22,6 @@ public final class BoatHider extends JavaPlugin {
     @Override
     public void onEnable() {
         nms = getNMS();
-        saveDefaultConfig();
         registerCommands();
 
         listeners = new BoatListeners(this);
