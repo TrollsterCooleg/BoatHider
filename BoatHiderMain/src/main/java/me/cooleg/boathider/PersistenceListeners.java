@@ -25,7 +25,7 @@ public class PersistenceListeners implements Listener {
         this.plugin = plugin;
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void worldLoadEvent(WorldLoadEvent event) {
         for (Chunk chunk : event.getWorld().getLoadedChunks()) {
             for (Boat boat : Arrays.stream(chunk.getEntities())
@@ -37,7 +37,7 @@ public class PersistenceListeners implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void chunkLoadEvent(ChunkLoadEvent event) {
         for (Boat boat : Arrays.stream(event.getChunk().getEntities())
                 .filter(entity -> entity.getType() == EntityType.BOAT)
@@ -47,7 +47,7 @@ public class PersistenceListeners implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void boatSpawn(VehicleCreateEvent event) {
         if (!(event.getVehicle() instanceof Boat boat) || nms.isCollisionless(boat)) {return;}
         new BukkitRunnable() {

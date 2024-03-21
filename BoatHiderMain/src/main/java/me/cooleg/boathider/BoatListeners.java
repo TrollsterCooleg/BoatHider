@@ -34,14 +34,14 @@ public class BoatListeners implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     private void worldChangedEvent(PlayerChangedWorldEvent event) {
         showAll(event.getPlayer());
         if (!hiding) {return;}
         hideOtherInWorld(event.getPlayer());
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     private void entityEnterBoat(VehicleEnterEvent event) {
         if (!hiding) {return;}
         Vehicle vehicle = event.getVehicle();
@@ -61,7 +61,7 @@ public class BoatListeners implements Listener {
         if (isPlayer) {hideOtherInWorld(player, vehicle);}
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     private void entityLeaveBoat(VehicleExitEvent event) {
         if (!hiding) {return;}
         Vehicle vehicle = event.getVehicle();
@@ -79,7 +79,7 @@ public class BoatListeners implements Listener {
         if (isPlayer) {showAll(player);}
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     private void vehicleDestroyEvent(VehicleDestroyEvent event) {
         if (!hiding) {return;}
         if (!(event.getVehicle() instanceof Boat)) {return;}
