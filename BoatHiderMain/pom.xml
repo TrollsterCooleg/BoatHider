@@ -57,6 +57,21 @@
             <version>1.0</version>
         </dependency>
         <dependency>
+            <groupId>me.cooleg</groupId>
+            <artifactId>BoatHiderNMS_V1_20_R3</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>me.cooleg</groupId>
+            <artifactId>BoatHiderNMS_V1_20_R4</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>me.cooleg</groupId>
+            <artifactId>BoatHiderNMS_V1_21_R1</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
             <groupId>me.superneon4ik</groupId>
             <artifactId>noxesiumutils</artifactId>
             <version>1.0</version>

@@ -7,6 +7,11 @@ Plugin functional on: <br>
     <li>1.20</li>
     <li>1.20.1</li>
     <li>1.20.2</li>
+    <li>1.20.3</li>
+    <li>1.20.4</li>
+    <li>1.20.5</li>
+    <li>1.20.6</li>
+    <li>1.21</li>
 </ul>
 
 PRs for bug fixes, version updates, and possible features are welcome.

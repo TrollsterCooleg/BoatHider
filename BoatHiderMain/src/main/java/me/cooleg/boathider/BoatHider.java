@@ -9,6 +9,9 @@ import me.cooleg.boathider.nms.INMS;
 import me.cooleg.boathider.nms.V1_19_R3.NMSV1_19_R3;
 import me.cooleg.boathider.nms.V1_20_R1.NMSV1_20_R1;
 import me.cooleg.boathider.nms.V1_20_R2.NMSV1_20_R2;
+import me.cooleg.boathider.nms.V1_20_R3.NMSV1_20_R3;
+import me.cooleg.boathider.nms.V1_20_R4.NMSV1_20_R4;
+import me.cooleg.boathider.nms.V1_21_R1.NMSV1_21_R1;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -35,6 +38,9 @@ public final class BoatHider extends JavaPlugin {
             case "1.19.4" -> new NMSV1_19_R3();
             case "1.20","1.20.1" -> new NMSV1_20_R1();
             case "1.20.2" -> new NMSV1_20_R2();
+            case "1.20.3","1.20.4" -> new NMSV1_20_R3();
+            case "1.20.5","1.20.6" -> new NMSV1_20_R4();
+            case "1.21" -> new NMSV1_21_R1();
             default -> throw new IncompatibleVersionException(versionString);
         };
     }
