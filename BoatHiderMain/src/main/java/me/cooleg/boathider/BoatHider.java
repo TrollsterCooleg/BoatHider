@@ -40,7 +40,7 @@ public final class BoatHider extends JavaPlugin {
             case "1.20.2" -> new NMSV1_20_R2();
             case "1.20.3","1.20.4" -> new NMSV1_20_R3();
             case "1.20.5","1.20.6" -> new NMSV1_20_R4();
-            case "1.21" -> new NMSV1_21_R1();
+            case "1.21","1.21.1" -> new NMSV1_21_R1();
             default -> throw new IncompatibleVersionException(versionString);
         };
     }
